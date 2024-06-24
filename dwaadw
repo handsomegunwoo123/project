@@ -1,0 +1,56 @@
+from tkinter import *
+import random
+from datetime import datetime
+
+window = Tk()
+window.title("AIM_GAME")
+window.geometry("550x150")
+window.option_add("*Font","맑은 20")
+
+lab = Label(window)
+lab.config(text = "표적 개수")
+lab.grid(column = 0, row = 0, padx = 20, pady = 20)
+
+ent = Entry(window)
+ent.grid(column = 1, row = 0, padx = 20, pady = 20)
+
+k = 1
+
+def cc():
+    global k
+    if k < num_t:
+        k += 1
+        btn.destroy()
+        ran_btn()
+    else :
+        fin = datetime.now()
+        dif_sec = (fin - start).total_seconds()
+        btn.destroy()
+        lab = Label(window)
+        lab.config(text = "Clear " + str(dif_sec) + "초")
+        lab.pack(pady = 230)
+
+def ran_btn():
+    global btn
+    btn = Button(window)
+    btn.config(bg = "red")
+    btn.config(command = cc)
+    btn.config(text = k)
+    btn.place(relx = random.random(), rely = random.random())
+
+def btn_f():
+    global num_t
+    global start
+    num_t = int(ent.get())
+    for wg in window.grid_slaves():
+        wg.destroy()
+    window.geometry("500x500")
+    ran_btn()
+    start = datetime.now()
+
+btn = Button(window)
+btn.config(text = "시작")
+btn.config(command = btn_f)
+btn.grid(column = 0, row = 1, columnspan = 2)
+
+window.mainloop()
